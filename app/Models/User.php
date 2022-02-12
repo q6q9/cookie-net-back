@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static User create(array $attributes = [])
+ * @method static User findOrFail(int $id)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
