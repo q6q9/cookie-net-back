@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
@@ -24,4 +26,6 @@ Route::prefix('auth')->group(function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('users/self', [UserController::class, 'self']);
     Route::apiResource('users', UserController::class);
+
+    Route::apiResource('messages', MessageController::class);
 });
