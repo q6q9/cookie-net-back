@@ -3,16 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMessageRequest;
-use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function index()
-    {
-    }
-
     /**
      * @OA\Post(
      *     path="/messages/",
@@ -72,33 +67,10 @@ class MessageController extends Controller
 
         return Message::query()
             ->selectRaw("id, (author = {$author}) AS is_own, body, EXTRACT(epoch FROM created_at) AS created_at")
-            ->where(["author" => [$author, $to]])
-            ->orWhere(["to" => [$author, $to]])
-            ->orderByDesc("created_at")
+            ->where(["author" => $author, "to" => $to])
+            ->orWhere(["author" => $to])->where([ "to" => $author])
+            ->orderBy("created_at")
             ->getQuery()
             ->get();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \App\Http\Requests\UpdateMessageRequest $request
-     * @param \App\Models\Message $message
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateMessageRequest $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Message $message
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Message $message)
-    {
-        //
     }
 }
