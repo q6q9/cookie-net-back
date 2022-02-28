@@ -47,15 +47,23 @@ class UserController extends Controller
         //
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/users/1",
+     *     tags={"users"},
+     *     summary="Get self user",
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent()
+     *     )
+     * )
      */
     public function show(User $user)
     {
-        //
+        return $user;
     }
 
     /**
