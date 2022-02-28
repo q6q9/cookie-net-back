@@ -61,9 +61,9 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function show(User $user)
+    public function show(int $id)
     {
-        return $user;
+        return User::findOrFail($id);
     }
 
     /**
