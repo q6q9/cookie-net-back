@@ -17,7 +17,7 @@ return [
 
     'paths' => ['*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*', 'https://q6q9.github.io'],
+    'allowed_methods' => ['*'],
 
     'allowed_origins' => ['*'],
 
