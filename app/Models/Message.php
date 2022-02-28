@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -23,4 +24,17 @@ class Message extends Model
         'to',
         'body',
     ];
+
+
+    public $timestamps = false;
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->author = Auth::id();
+            $model->created_at = $model->freshTimestamp();
+        });
+    }
 }

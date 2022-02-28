@@ -6,7 +6,6 @@ use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -15,14 +14,37 @@ class MessageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \App\Http\Requests\StoreMessageRequest $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/messages/",
+     *     tags={"messages"},
+     *     summary="Send message",
+     *     security={{"sanctum":{}}},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="to",
+     *                     type="int"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="body",
+     *                     type="string"
+     *                 ),
+     *                 example={"to": "1", "body": "Hi, ALexander. How are you?"},
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="OK",
+     *         @OA\JsonContent()
+     *     )
+     * )
      */
     public function store(StoreMessageRequest $request)
     {
-        //
+        return Message::create($request->validated());
     }
 
 
@@ -48,16 +70,13 @@ class MessageController extends Controller
     {
         $author = Auth::id();
 
-        /** @var Message[] $messages */
-        $messages = Message::query()
+        return Message::query()
             ->selectRaw("id, (author = {$author}) AS is_own, body, EXTRACT(epoch FROM created_at) AS created_at")
             ->where(["author" => [$author, $to]])
             ->orWhere(["to" => [$author, $to]])
             ->orderByDesc("created_at")
             ->getQuery()
             ->get();
-
-        return $messages;
     }
 
     /**
