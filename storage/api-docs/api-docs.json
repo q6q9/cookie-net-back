@@ -90,6 +90,82 @@
                 }
             }
         },
+        "/messages/": {
+            "post": {
+                "tags": [
+                    "messages"
+                ],
+                "summary": "Send message",
+                "operationId": "a2ada3b074b1b549924eb051f67c9e3f",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "to": {
+                                        "type": "integer"
+                                    },
+                                    "body": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "to": "1",
+                                    "body": "Hi, ALexander. How are you?"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/messages/{id}": {
+            "get": {
+                "tags": [
+                    "messages"
+                ],
+                "summary": "Get messages from me to ID's user",
+                "operationId": "abaddc21ac1f3e46b3cf1527df9bad66",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/users/self": {
             "get": {
                 "tags": [
@@ -97,6 +173,30 @@
                 ],
                 "summary": "Get self user",
                 "operationId": "134c15e26169315386829e3d42d18044",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/1": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get self user",
+                "operationId": "0792ead7c8fc04b67853032cc81fd173",
                 "responses": {
                     "200": {
                         "description": "OK",
